@@ -25,11 +25,11 @@ LABEL_HEIGHT = PAGESIZE[1] / NUM_LABELS_Y
 SHEET_TOP = PAGESIZE[1]
 
 
-def label(ean13: str, description: str, sku, color) -> Drawing:
+def label(ean13: str, description: str, sku_origin, color, composition) -> Drawing:
     """
     Generate a drawing with EAN-13 barcode and descriptive text.
 
-    :param sku:
+    :param sku_origin:
     :param color:
     :param ean13: The EAN-13 Code.
     :type ean13: str
@@ -39,20 +39,24 @@ def label(ean13: str, description: str, sku, color) -> Drawing:
     :rtype: Drawing
     """
 
-    stepY = 10
+    stepY = 8
     product_name = String(0, TEXT_Y, description, fontName="Helvetica",
-                          fontSize=10, textAnchor="middle")
+                          fontSize=8, textAnchor="middle")
     product_name.x = LABEL_WIDTH / 2  # center text (anchor is in the middle)
 
-    color_size = String(0, TEXT_Y - stepY, "Color: {}   size: {}".format(color, sku.split("-")[-1]),
+    color_size = String(0, TEXT_Y - stepY, "Color: {}   size: {}".format(color, sku_origin.split("-")[-1]),
                         fontName="Helvetica",
-                        fontSize=10, textAnchor="middle")
+                        fontSize=8, textAnchor="middle")
     color_size.x = LABEL_WIDTH / 2
 
-    sku = String(0, TEXT_Y - stepY * 2, "SKU: {}".format(sku), fontName="Helvetica",
-                 fontSize=10, textAnchor="middle")
+    sku_origin = String(0, TEXT_Y - stepY * 2, "SKU: {}      Made in: China".format(sku_origin), fontName="Helvetica",
+                        fontSize=8, textAnchor="middle")
+    sku_origin.x = LABEL_WIDTH / 2
 
-    sku.x = LABEL_WIDTH / 2
+    composition = String(0, TEXT_Y - stepY * 3, "{}".format(composition), fontName="Helvetica",
+                         fontSize=8, textAnchor="middle")
+
+    composition.x = LABEL_WIDTH / 2
 
     barcode = Ean13BarcodeWidget(ean13)
     barcode.barWidth = BAR_WIDTH
@@ -64,8 +68,9 @@ def label(ean13: str, description: str, sku, color) -> Drawing:
     label_drawing = Drawing(LABEL_WIDTH, LABEL_HEIGHT)
     label_drawing.add(product_name)
     label_drawing.add(color_size)
-    label_drawing.add(sku)
+    label_drawing.add(sku_origin)
     label_drawing.add(barcode)
+    label_drawing.add(composition)
     return label_drawing
 
 
@@ -88,11 +93,17 @@ def fill_sheet(canvas: Canvas, label_drawing: Drawing):
 if __name__ == '__main__':
 
     with open('product_info.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+        csv_reader = csv.reader(csv_file, delimiter=';')
         Data = namedtuple("Data", next(csv_reader))  # get names from column headers
         for product_info in map(Data._make, csv_reader):
             canvas = Canvas("label_sheets_with_barcodes/ean-sticker_{}.pdf".format(product_info.EAN13),
                             pagesize=PAGESIZE)
-            sticker = label('5432072586067', product_info.product_name, product_info.SKU, product_info.color)
+
+            if len(product_info.EAN13) > 13:
+                print("EXITING: EAN code needs to be 13 digits long")
+                exit(-1)
+
+            sticker = label(product_info.EAN13, product_info.product_name, product_info.SKU, product_info.color,
+                            product_info.composition)
             fill_sheet(canvas, sticker)
             canvas.save()
