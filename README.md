@@ -11,6 +11,12 @@ Information per label:
 * SKU
 * EAN13 
 * Color
+* Composition
+
+## Usage
+
+Change the product_info.csv file, with the appropriate fields mentioned above. 
+
 
 
 ## Credit
