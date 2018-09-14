@@ -28,10 +28,11 @@ STICKER_ELEMENT_Y_DISTANCE = 15
 COLUMN2_X = 180
 
 
-def label(ean13: str, description: str, sku, color, composition) -> Drawing:
+def label(ean13: str, description: str, sku, color, composition, origin_country) -> Drawing:
     """
     Generate a drawing with EAN-13 barcode and descriptive text.
 
+    :param origin_country:
     :param composition:
     :param sku:
     :param color:
@@ -67,15 +68,15 @@ def label(ean13: str, description: str, sku, color, composition) -> Drawing:
     # Second column of sticker
     column2_y_top = LABEL_HEIGHT / 1.3
     origin_country = String(COLUMN2_X, column2_y_top,
-                            "Made in: China", fontName="Helvetica",
+                            "Made in: {}".format(origin_country), fontName="Helvetica",
                             fontSize=10)
     sku_drawing_element = String(COLUMN2_X, column2_y_top - STICKER_ELEMENT_Y_DISTANCE,
                                  "SKU: {}".format(sku), fontName="Helvetica",
                                  fontSize=10)
-    size_text = String(COLUMN2_X, column2_y_top - STICKER_ELEMENT_Y_DISTANCE * 2.8,
+    size_text = String(COLUMN2_X, column2_y_top - STICKER_ELEMENT_Y_DISTANCE * 2.5,
                        "Size: ", fontName="Helvetica",
                        fontSize=10)
-    size = String(COLUMN2_X + 35, column2_y_top - STICKER_ELEMENT_Y_DISTANCE * 2.8, "{}".format(sku.split("-")[-1]),
+    size = String(COLUMN2_X + 35, column2_y_top - STICKER_ELEMENT_Y_DISTANCE * 2.5, "{}".format(sku.split("-")[-1]),
                   fontName="Helvetica",
                   fontSize=15, textAnchor="middle")
 
@@ -122,6 +123,6 @@ if __name__ == '__main__':
                 exit(-1)
 
             sticker = label(product_info.EAN13, product_info.product_name, product_info.SKU, product_info.color,
-                            product_info.composition)
+                            product_info.composition, product_info.origin_country)
             fill_sheet(canvas, sticker)
             canvas.save()
