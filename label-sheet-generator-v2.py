@@ -115,7 +115,8 @@ if __name__ == '__main__':
         csv_reader = csv.reader(csv_file, delimiter=';')
         Data = namedtuple("Data", next(csv_reader))  # get names from column headers
         for product_info in map(Data._make, csv_reader):
-            canvas = Canvas("label_sheets_with_barcodes-v2/ean-sticker_{}.pdf".format(product_info.EAN13),
+            canvas = Canvas("label_sheets_with_barcodes-v2/{}_{}_ean-sticker.pdf".format(product_info.SKU,
+                                                                                         product_info.EAN13),
                             pagesize=PAGESIZE)
 
             if len(product_info.EAN13) > 13:
