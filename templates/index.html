@@ -2,7 +2,7 @@
 <html lang="en">
 {% include 'header.html' %}
 {% include 'nav.html' %}
-<script src="static/js/util.js"></script>
+<script src="/static/js/barcode.js"></script>
 <link rel="stylesheet" type="text/css" href="static/css/index.css">
 
 <body>
@@ -10,6 +10,79 @@
 <h1>Barcode generator</h1>
 
 
+<p>A pdf with stickers can be generated</p>
+
+
+<h2>Future improvements</h2>
+
+<ul>
+    <li>more customization of pdf generated</li>
+    <li>csv file upload for generating pdf for multiple products</li>
+    <li>an "add to list" button so one could write in the info of several barcodes an generate all in one go</li>
+    <li>duplicate info, so that retyping is unnecessary</li>
+</ul>
+
+<form onsubmit="create_barcode" action="/generate_barcodes">
+    <fieldset>
+        <legend>Barcode information</legend>
+        <div class='row'>
+            <div class='col-sm-2'>
+                <div class='form-group'>
+                    <label for="product">product name </label>
+                    <input class="form-control" id="product" name="product" size="30" type="text"
+                           value="Vortex Leggings"/>
+                </div>
+            </div>
+            <div class='col-sm-1'>
+                <div class='form-group'>
+                    <label for="SKU">SKU</label>
+                    <input class="form-control" id="SKU" name="SKU" required="true" size="30"
+                           type="text"
+                           value="OCL-MB-XS"
+                    />
+                </div>
+            </div>
+            <div class='col-sm-2'>
+                <div class='form-group'>
+                    <label for="EAN13">EAN13</label>
+                    <input class="form-control" id="EAN13" name="EAN13" required="true" size="30"
+                           type="text"
+                           value="0619960718667"
+                           minlength="10"
+                    />
+                </div>
+            </div>
+            <div class='col-sm-2'>
+                <div class='form-group'>
+
+                    <label for="color">color</label>
+                    <input class="form-control required email" id="color" name="color" required="true"
+                           size="30" type="text" value="melange grey"
+                    />
+                </div>
+            </div>
+            <div class='col-sm-3'>
+                <div class='form-group'>
+                    <label for="composition">composition</label>
+                    <input class="form-control" id="composition" name="composition" required="true" size="30"
+                           type="text" value="41% polyester 56% polyamide 3% elastane"
+                    />
+                </div>
+            </div>
+
+            <div class='col-sm-1'>
+                <div class='form-group'>
+                    <label for="origin">origin country</label>
+                    <input class="form-control" id="origin" name="origin" required="true" size="30"
+                           type="text" value="PT"
+                    />
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-primary">generate barcodes</button>
+</form>
 
 
 </body>
