@@ -33,7 +33,6 @@ def generate_barcodes():
                                        origin)
     app.labelGenerator.fill_sheet(canvas, sticker)
 
-    canvas.save()
     pdf_out = canvas.getpdfdata()
     response = make_response(pdf_out)
     response.headers['Content-Disposition'] = "attachment; filename={}".format(filename)
