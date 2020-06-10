@@ -51,6 +51,8 @@ if __name__ == '__main__':
 
     with open('store_order.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
+        for line in csv_reader:
+            print(line)
 
     for i in range(5):
         newY = draw_sticker_items(c, startX, startY, step)
