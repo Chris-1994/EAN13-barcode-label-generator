@@ -35,6 +35,7 @@ def draw_line(canvas, x, y):
 
 
 def create_sticker_for_box(sticker_name="sticker.pdf", box_number=1):
+    newY = 0
     c = canvas.Canvas(sticker_name)
     c.setFont("Helvetica", 9)
     startX = 100
