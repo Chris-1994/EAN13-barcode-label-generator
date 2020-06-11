@@ -7,19 +7,13 @@ from reportlab.graphics.shapes import Drawing
 from reportlab.pdfgen import canvas
 
 
-def draw_sticker_items(canvas, start_x=100, start_y=0, step=30):
+def draw_sticker_items(canvas, sticker_items, start_x=100, start_y=0, step=30):
     new_y = start_y
-    sticker_items = OrderedDict({"sku": "SKU: SVHWL-BK-XS",
-                                 "title": "Title: 7/8 Black Vortex Leggings",
-                                 "quantity": "Quantity: 1",
-                                 "fill": "---------------------------------------------------------------------------",
-                                 },
-                                )
     for i, sticker_item in enumerate(sticker_items):
         new_y = start_y - i * step
         canvas.drawString(start_x, new_y, sticker_items[sticker_item])
 
-    return new_y - 30
+    return new_y - 15
 
 
 def draw_box_number(canvas, x, y):
@@ -40,26 +34,29 @@ def draw_line(canvas, x, y):
         canvas.drawString(x, y, sticker_items[sticker_item], )
 
 
-if __name__ == '__main__':
-    c = canvas.Canvas("sticker.pdf")
+c = canvas.Canvas("sticker.pdf")
+c.setFont("Helvetica", 9)
+startX = 100
+startY = 780
+draw_box_number(c, startX, startY + 30)
+step = 12
+draw_line(c, startX, startY + step)
 
-    startX = 100
-    startY = 750
-    draw_box_number(c, startX, startY + 40)
-    step = 15
-    draw_line(c, startX, startY + step)
-
-    with open('store_order.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=';')
-        for line in csv_reader:
-            print(line)
-
-    for i in range(5):
-        newY = draw_sticker_items(c, startX, startY, step)
+with open('store_order.csv') as packing_information_csv:
+    packing_information = csv.reader(packing_information_csv, delimiter=',')
+    next(packing_information)  # skip header row
+    for line in packing_information:
+        if line[3] == 0:
+            continue  # probably did not have the item
+        sticker_items = OrderedDict({"sku": f'SKU: {line[0]} –– Title: {line[1]} –– quantity: {line[3]}',
+                                     "fill": "---------------------------------------------------------------------------",
+                                     },
+                                    )
+        newY = draw_sticker_items(c, sticker_items, startX, startY, step)
         startY = newY
 
-    d = Drawing(50, 10)
-    renderPDF.draw(d, c, startX, newY - 4 * step)
+d = Drawing(50, 10)
+renderPDF.draw(d, c, startX, newY - 4 * step)
 
-    # Save to file
-    c.save()
+# Save to file
+c.save()
