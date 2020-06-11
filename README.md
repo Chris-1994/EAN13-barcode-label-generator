@@ -1,7 +1,7 @@
 
 
 # EAN13 sticker generator
-
+   
 The label sheet generator makes a label and then makes several
 copies of it nicely seperated on a pdf document.
 
