@@ -16,9 +16,9 @@ def draw_sticker_items(canvas, sticker_items, start_x=100, start_y=0, step=30):
     return new_y - 15
 
 
-def draw_box_number(canvas, x, y):
+def draw_box_number(canvas, x, y, box_number):
     sticker_items = OrderedDict({
-        "box": "BOX 1",
+        "box": f"BOX {box_number}",
     },
     )
     for i, sticker_item in enumerate(sticker_items):
@@ -27,36 +27,48 @@ def draw_box_number(canvas, x, y):
 
 def draw_line(canvas, x, y):
     sticker_items = OrderedDict({
-        "box": "---------------------------------------------------------------------------",
+        "line": "---------------------------------------------------------------------------",
     },
     )
     for i, sticker_item in enumerate(sticker_items):
         canvas.drawString(x, y, sticker_items[sticker_item], )
 
 
-c = canvas.Canvas("sticker.pdf")
-c.setFont("Helvetica", 9)
-startX = 100
-startY = 780
-draw_box_number(c, startX, startY + 30)
-step = 12
-draw_line(c, startX, startY + step)
+def create_sticker_for_box(sticker_name="sticker.pdf", box_number=1):
+    c = canvas.Canvas(sticker_name)
+    c.setFont("Helvetica", 9)
+    startX = 100
+    startY = 780
+    draw_box_number(c, startX, startY + 30, box_number)
+    step = 12
+    draw_line(c, startX, startY + step)
 
-with open('store_order.csv') as packing_information_csv:
-    packing_information = csv.reader(packing_information_csv, delimiter=',')
-    next(packing_information)  # skip header row
-    for line in packing_information:
-        if line[3] == 0:
-            continue  # probably did not have the item
-        sticker_items = OrderedDict({"sku": f'SKU: {line[0]} –– Title: {line[1]} –– quantity: {line[3]}',
-                                     "fill": "---------------------------------------------------------------------------",
-                                     },
-                                    )
-        newY = draw_sticker_items(c, sticker_items, startX, startY, step)
-        startY = newY
+    with open('store_order.csv') as packing_information_csv:
+        packing_information = csv.reader(packing_information_csv, delimiter=',')
+        next(packing_information)  # skip header row
+        for line in packing_information:
+            if len(line) == 0:
+                continue  # probably just an empty line
+            box_number_from_csv = line[4]
+            if box_number != int(box_number_from_csv):
+                continue
 
-d = Drawing(50, 10)
-renderPDF.draw(d, c, startX, newY - 4 * step)
+            if line[3] == '0':
+                continue  # probably did not have the item
+            sticker_items = OrderedDict({"sku": f'SKU: {line[0]} –– Title: {line[1]} –– quantity: {line[3]}',
+                                         "fill": "---------------------------------------------------------------------------",
+                                         },
+                                        )
+            newY = draw_sticker_items(c, sticker_items, startX, startY, step)
+            startY = newY
 
-# Save to file
-c.save()
+    d = Drawing(50, 10)
+    renderPDF.draw(d, c, startX, newY - 4 * step)
+
+    # Save to file
+    c.save()
+
+
+num_boxes = 2
+for i in range(1, num_boxes + 1):
+    create_sticker_for_box(f"box_{i}.pdf", box_number=i)

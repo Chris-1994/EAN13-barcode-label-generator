@@ -1,22 +1,23 @@
-SKU,Product name,QTY ,Packed QTY
-EVL-BK-XS,Melange Black Elevate Vortex Leggings,3,3
-EVL-BK-S,Melange Black Elevate Vortex Leggings,1,1
-EVL-BK-M,Melange Black Elevate Vortex Leggings,2,2
-EVL-BK-L,Melange Black Elevate Vortex Leggings,3,3
-EWL-DG-XS,Melange Grey Elevate Wave Leggings,3,3
-EWL-DG-S,Melange Grey Elevate Wave Leggings,3,3
-EWL-DG-M,Melange Grey Elevate Wave Leggings,3,3
-EWL-DG-L,Melange Grey Elevate Wave Leggings,2,2
-TET-BK-XS,Black Techna Tights,2,2
-TET-BK-S,Black Techna Tights,2,2
-TET-BK-M,Black Techna Tights,2,2
-TET-BK-L,Black Techna Tights,2,2
-TET-BK-XL,Black Techna Tights,2,0
-EWL-MB-XS,Melange Blue Elevate Wave Leggings,2,2
-EWL-MB-S,Melange Blue Elevate Wave Leggings,2,2
-EWL-MB-M,Melange Blue Elevate Wave Leggings,2,2
-EWL-MB-L,Melange Blue Elevate Wave Leggings,1,1
-LSS-BK-M,Black Loose LS T-Shirt,1,1
-LSS-BK-L,Black Loose LS T-Shirt,2,2
-OCLS-BK-XS,Black Ocean Crop Long Sleeve,1,1
-OCLS-BK-M,Black Ocean Crop Long Sleeve,1,1
+SKU,Product name,QTY ,Packed QTY,box no.
+EVL-BK-XS,Melange Black Elevate Vortex Leggings,3,3,1
+EVL-BK-S,Melange Black Elevate Vortex Leggings,1,1,1
+EVL-BK-M,Melange Black Elevate Vortex Leggings,2,2,1
+EVL-BK-L,Melange Black Elevate Vortex Leggings,3,3,1
+EWL-DG-XS,Melange Grey Elevate Wave Leggings,3,3,1
+EWL-DG-S,Melange Grey Elevate Wave Leggings,3,3,1
+EWL-DG-M,Melange Grey Elevate Wave Leggings,3,3,1
+EWL-DG-L,Melange Grey Elevate Wave Leggings,2,2,1
+TET-BK-XS,Black Techna Tights,2,2,1
+TET-BK-S,Black Techna Tights,2,2,1
+TET-BK-M,Black Techna Tights,2,2,1
+TET-BK-L,Black Techna Tights,2,2,1
+TET-BK-XL,Black Techna Tights,2,0,1
+EWL-MB-XS,Melange Blue Elevate Wave Leggings,2,2,1
+EWL-MB-S,Melange Blue Elevate Wave Leggings,2,2,1
+EWL-MB-M,Melange Blue Elevate Wave Leggings,2,2,1
+EWL-MB-L,Melange Blue Elevate Wave Leggings,1,1,1
+LSS-BK-M,Black Loose LS T-Shirt,1,1,1
+LSS-BK-L,Black Loose LS T-Shirt,2,2,1
+OCLS-BK-XS,Black Ocean Crop Long Sleeve,1,1,1
+OCLS-BK-M,Black Ocean Crop Long Sleeve,1,1,1
+test,b,1,1,2
